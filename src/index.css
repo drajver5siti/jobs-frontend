@@ -16,3 +16,12 @@
     overflow-x: hidden;
     height: 100vh;
 }
+._right-height{
+    height: calc(100vh - 6rem);
+}
+._right-height2{
+    height: calc(100% - 12rem);
+}
+._custom-shadow{
+    box-shadow: 0 2px 4px -2px gray;
+}

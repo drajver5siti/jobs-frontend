@@ -67,7 +67,7 @@ const Register = () => {
 
                         className='outline-none bg-slate-200 p-1 focus:bg-slate-300 ' />
 
-                    <button type='submit' disabled={!username || !password || password !== confirmPassword} className='bg-emerald-700 text-white p-2 mt-6 font-bold uppercase font-mono hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-emerald-800 disabled:text-slate-100'>Submit</button>
+                    <button type='submit' disabled={!username || !password || password !== confirmPassword} className='bg-accent-color text-white p-2 mt-6 font-bold uppercase font-mono hover:bg-accent-color-hover disabled:cursor-not-allowed disabled:bg-accent-color-disabled disabled:text-slate-100'>Submit</button>
                 </div>
             </form>
         </div>
