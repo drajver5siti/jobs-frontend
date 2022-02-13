@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useUserContext } from "../context/auth";
-import { isExpired } from 'react-jwt'
+import toastProperties from '../services/toastProperties'
 
 
 
 const Login = () => {
+    const { state } = useLocation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { logInProvider, afterLogin, logOutProvider } = useUserContext();
+    const { logInProvider } = useUserContext();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        let token = localStorage.getItem('jwt');
-        if (token && !isExpired(token)) {
-            afterLogin(token)
-            navigate('/');
-        }
-        else if (isExpired(token))
-            logOutProvider(false);
-
-    }, [navigate, afterLogin, logOutProvider, isExpired])
 
     const submitForm = async (e) => {
         e.preventDefault();
         logInProvider(username, password)
             .then(() => {
-                navigate('/');
+                navigate(`${state || '/'}`);
+                toast.success('Welcome back', { ...toastProperties, toastId: 'welcome_back' });
+
             })
             .catch((err) => {
             })
@@ -43,7 +36,7 @@ const Login = () => {
 
                     <label htmlFor="username">Username:</label>
                     <input type="text" name="email" value={username} onChange={(e) => setUsername(e.target.value)}
-                        className='outline-none p-1 bg-slate-200 mb-4 focus:bg-slate-300' />
+                        className='outline-none p-1 bg-slate-200 mb-4 focus:bg-slate-300' autoFocus />
 
 
                     <label htmlFor="password">Password:</label>

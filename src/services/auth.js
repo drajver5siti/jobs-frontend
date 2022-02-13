@@ -9,7 +9,7 @@ export const loginUser = async (username, password) => {
         })
         return rawRes.data;
     } catch (error) {
-        throw new Error(error.response.data);
+        throw new Error(error.response.data.message);
     }
 }
 
@@ -21,8 +21,7 @@ export const registerUser = async ({ username, password }) => {
         });
         return rawRes.data;
     } catch (error) {
-        // console.log(error.response.data);
-        throw new Error(error.response.data);
+        throw new Error(error.response.data.message);
     }
 }
 

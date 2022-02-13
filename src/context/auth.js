@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { decodeToken } from 'react-jwt';
 import { toast } from 'react-toastify';
 import { loginUser, registerUser } from '../services/auth';
 import toastProperties from '../services/toastProperties';
@@ -12,19 +13,15 @@ export const useUserContext = () => {
 }
 
 const UserProvider = ({ children }) => {
-    const [loggedIn, setLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
-    const [user, setUser] = useState(null);
+    const [userID, setUserID] = useState(null);
 
 
     const afterLogin = (token) => {
         localStorage.setItem('jwt', token);
         setToken(token);
-        if (!toast.isActive('welcome_back'))
-            toast.success('Welcome back', { ...toastProperties, toastId: 'welcome_back' });
-        setLoggedIn(true);
-        localStorage.setItem('loggedIn', true);
-
+        const decodedToken = decodeToken(token);
+        setUserID(decodedToken.user)
     }
 
 
@@ -32,7 +29,6 @@ const UserProvider = ({ children }) => {
         return loginUser(username, password)
             .then(data => {
                 afterLogin(data.token)
-                setUser(data.user)
             })
             .catch(err => {
                 if (!toast.isActive('error'))
@@ -44,10 +40,10 @@ const UserProvider = ({ children }) => {
     const logOutProvider = (msg = true) => {
         localStorage.clear();
         setToken(null);
+        setUserID(null);
         // setUser(null);
         if (!toast.isActive('logged_out') && msg)
             toast.success('Logged out', { ...toastProperties, toastId: 'logged_out' });
-        setLoggedIn(false);
     }
 
     const registerProvider = async (data) => {
@@ -56,7 +52,7 @@ const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{ loggedIn, logInProvider, logOutProvider, registerProvider, afterLogin, token, user }}>
+        <UserContext.Provider value={{ logInProvider, logOutProvider, registerProvider, afterLogin, token, userID }}>
             {children}
         </UserContext.Provider>
     )

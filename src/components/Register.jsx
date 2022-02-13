@@ -12,11 +12,9 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('loggedIn'))
+        if (localStorage.getItem('jwt'))
             return navigate('/');
     }, [])
-
-
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -35,7 +33,6 @@ const Register = () => {
             navigate('/login');
         }
         catch (err) {
-            console.log(err.message);
             toast.error(`${err.message}`, properties);
         }
 

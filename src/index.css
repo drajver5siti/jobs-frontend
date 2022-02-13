@@ -9,6 +9,12 @@
     .test{
         @apply transition-all
     }
+    ._form-input-style{
+        @apply border-light-color border-2 rounded-md focus:outline-none focus:border-dark-color h-8 aspect-[8/1] pl-2
+    }
+    ._form-div-style{
+        @apply flex flex-col gap-1
+    }
 }
 
 #root{

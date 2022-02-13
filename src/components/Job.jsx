@@ -1,21 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MdWork } from 'react-icons/md'
 import { useNavigate } from 'react-router';
-import { useJobsContext } from "../context/jobs";
 
 
-const Job = ({ data }) => {
+const Job = ({ data, setDisplayJob }) => {
 
-    const { setCurrentJobToDisplay, displayJob, jobs, isSmall } = useJobsContext();
+    // const { setCurrentJobToDisplay, displayJob, jobs, isSmall } = useJobsContext();
     const navigate = useNavigate();
     const handleJobClick = (e) => {
         if (window.innerWidth >= 768) {
             // if we have two columns just display the job
-            setCurrentJobToDisplay(data)
+            setDisplayJob(data)
         }
         else {
             // else open the full job in a new window
-            navigate(`/jobs/${data._id}`)
+            window.open(`/jobs/${data._id}`, '_blank')?.focus();
         }
 
     }
@@ -29,14 +28,14 @@ const Job = ({ data }) => {
                 onClick={() => {
                     handleJobClick()
                 }}>
-                <h2 className='text-3xl font-semibold'>{data?.title}</h2>
+                <h2 className='text-3xl font-semibold capitalize'>{data?.title}</h2>
                 <div className='inline-flex items-center w-max relative'>
-                    <p className='bg-slate-200 rounded inline-block pl-2 pr-10 py-1 text-sm'>{data?.type}</p>
+                    <p className='bg-slate-200 rounded inline-block pl-2 pr-10 py-1 text-sm capitalize'>{data?.type}</p>
                     <MdWork size='1.25rem' className='absolute right-1 fill-slate-600' />
                 </div>
-                <p className='text-2xl'>{data?.company}</p>
-                <p className='text-xl'>{data?.location}</p>
-                <p className='w-auto break-words'>{data?.shortDesc}</p>
+                <p className='text-2xl capitalize'>{data?.company}</p>
+                <p className='text-xl capitalize'>{data?.location}</p>
+                <p className='w-auto break-words capitalize'>{data?.shortDesc}</p>
             </div>
         </>
     )
